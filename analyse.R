@@ -5,7 +5,7 @@ data = read.csv("data.csv")
 
 # Data
 
-y2 = data$unregistered.manufacturing
+y2 = data$manufacturing
 y1 = (y2 / data$GDP.at.factor.cost) * 100
 
 l = 10
@@ -112,7 +112,7 @@ for (i in 1:(n - 2)) {
 
 w = min(d - 1, n - d)
 chow = sctest(y[(d - w):(d + w)] ~ seq(2 * w + 1), type = "Chow", point = w)
-cat(colnames(data)[k], w, 1950 + d, chow$p.value, "\n")
+cat(1950 + d, chow$p.value, "\n")
 
 l1 = lm(y[1:d] ~ seq(d))
 l2 = lm(y[(d + 1):n] ~ seq(n - d))
@@ -211,15 +211,9 @@ w = min(d1 - 1, (d2 - d1 - 1) %/% 2, n - d2)
 if (w > 1) {
   chow1 = sctest(y[(d1 - w):(d1 + w)] ~ seq(2 * w + 1), type = "Chow", point = w)
   chow2 = sctest(y[(d2 - w):(d2 + w)] ~ seq(2 * w + 1), type = "Chow", point = w)
-  cat(colnames(data)[k],
-      w,
-      1950 + d1,
-      1950 + d2,
-      chow1$p.value,
-      chow2$p.value,
-      "\n")
+  cat(w, 1950 + d1, 1950 + d2, chow1$p.value, chow2$p.value, "\n")
 } else {
-  cat(colnames(data)[k], w, 1950 + d1, 1950 + d2, "\n")
+  cat(w, 1950 + d1, 1950 + d2, "\n")
 }
 
 l1 = lm(y[1:d1] ~ seq(d1))
